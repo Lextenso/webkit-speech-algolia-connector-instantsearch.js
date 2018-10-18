@@ -1,0 +1,5 @@
+node_modules/
+*.log
+*.php
+.DS_Store
+examples/*/dist/

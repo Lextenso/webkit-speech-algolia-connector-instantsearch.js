@@ -1,0 +1,28 @@
+{
+  "name": "webkit-speech-algolia-connector-instantsearch.js",
+  "version": "0.1.0",
+  "description": "Webkit Speech connector for Algolia Instantsearch.js",
+  "main": "dist/webkitSpeechAlgoliaConnector.js",
+  "repository": "github:Lextenso/webkit-speech-algolia-connector-instantsearch.js",
+  "scripts": {
+    "build": "webpack",
+    "build-examples": "webpack --config webpack.config.js && webpack --config examples/es/webpack.config.js"
+  },
+  "license": "Apache-2.0",
+  "author": "Julien Madiot <julien.madiot@lextenso.fr>",
+  "dependencies": {
+    "instantsearch.js": "^2.10.0",
+    "to-factory": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "file-loader": "^1.1.11",
+    "jshint": "^2.9.6",
+    "jshint-loader": "^0.8.4",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8"
+  }
+}
