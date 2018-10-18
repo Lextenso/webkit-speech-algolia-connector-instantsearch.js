@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <title>Instant Search</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <!-- IE < 10 support -->
+  <!--[if lte IE 9]>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3/dist/instantsearch.min.css">
+  <link rel="stylesheet" type="text/css" href="https://preview.algolia.com/instantsearch/assets/style.css">
+  <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/hilnmyskv/image/upload/c_fit,w_32,h_32/algolia-mark.ico" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- stylesheet for STT button -->
+  <style type="text/css">
+      @keyframes changeOp {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0.6;
+      }
+    }
+    .cta-speech .hit-image img {
+        margin-left: 0.5rem;
+    }
+    .button-stt {
+        backface-visibility: hidden;
+        position: relative;
+        width: 44px;
+        height: 44px;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        background: #111;
+        border-radius: 100px;
+        border: 0px solid #444;
+        border-width: 0px 0px 0px 0px;
+        padding: 10px 13px 10px 13px;
+        color: #000;
+        font-size: 16px;
+        font-family: Helvetica Neue;
+        font-weight: 900;
+        font-style: normal;
+        margin-top: 15px;
+    }
+
+    .button-stt.primary {
+        background-color: #69c469;
+    }
+    .button-stt.recording {
+        background-color: #e52;
+        animation-duration: 1s;
+        animation-name: changeOp;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+    .button-stt > i {
+        color: #fff;
+        font-size: 1em;
+        border-radius: 0px;
+        border: 0px solid transparent;
+        border-width: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        margin: 0px 0px 0px 0px;
+        position: static;
+    }
+    .button-stt.error::after {
+        content: 'an error is detected';
+        font-size: 1rem;
+        padding-left: 25px;
+    }
+
+    .button-stt.error {
+        background-color: #888888;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTERFACE -->
+  <header>
+    <a href="."><img src="https://preview.algolia.com/instantsearch/assets/img/instant_search_logo@2x.png"/></a>
+    <div id="search-input"></div>
+  </header>
+
+  <main>
+    <div id="left-column">
+      <div id="category" class="facet"></div>
+      <div id="brand" class="facet"></div>
+      <div id="price" class="facet"></div>
+      <div id="type" class="facet"></div>
+    </div>
+
+    <div id="right-column">
+        <div class="ais-hits--item cta-speech" style="background: #eee;">
+            <div class="hit">
+              <div class="hit-image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/200px-Google_Chrome_icon_%28September_2014%29.svg.png" alt="Logo Chrome">
+              </div>
+              <div class="hit-content">
+                <h2 class="hit-name">Try Webkit Speech Algolia Connector</h2>
+                <p class="hit-description">Click on the button down below :<br />
+                    <button class="button-stt primary" id="mic-stt"><i class="material-icons">mic</i></button>
+                </p>
+              </div>
+            </div>
+        </div>
+      <div id="sort-by-wrapper"><span id="sort-by"></span></div>
+      <div id="stats"></div>
+      <div id="hits"></div>
+      <div id="pagination"></div>
+    </div>
+  </main>
+
+  <footer>
+    Source Code on <a href="https://github.com/algolia/examples/blob/master/instant-search/instantsearch.js">Github</a> -
+    Powered by <a href="https://www.algolia.com">Algolia</a> - Data from <a href="https://developer.bestbuy.com">Best Buy</a>
+  </footer>
+  <!-- /INTERFACE -->
+
+  <!-- TEMPLATES -->
+  <script type="text/html" id="hit-template">
+    <div class="hit">
+      <div class="hit-image">
+        <img src="{{image}}" alt="{{name}}">
+      </div>
+      <div class="hit-content">
+        <h3 class="hit-price">${{price}}</h3>
+        <h2 class="hit-name">{{{_highlightResult.name.value}}}</h2>
+        <p class="hit-description">{{{_highlightResult.description.value}}}</p>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="no-results-template">
+    <div id="no-results-message">
+      <p>We didn't find any results for the search <em>"{{query}}"</em>.</p>
+      <a href="." class='clear-all'>Clear search</a>
+    </div>
+  </script>
+  <!-- /TEMPLATES -->
+
+  <!-- SCRIPTS -->
+  <script src="app.js"></script>
+  <!-- /SCRIPTS -->
+</body>
+</html>
