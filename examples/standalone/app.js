@@ -130,7 +130,6 @@ function app(opts) {
               onErrorClass: 'error'
           },
           recognitionConfig: {
-              lang: 'fr-fr',
               continuous: false
           },
           autoHideContainer: '.cta-speech'
