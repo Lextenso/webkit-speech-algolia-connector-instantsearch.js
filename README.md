@@ -1,11 +1,13 @@
+![](https://img.shields.io/github/release/Lextenso/webkit-speech-algolia-connector-instantsearch.js/all.svg)
 ![](https://img.shields.io/badge/status-beta-red.svg)
+[![](https://data.jsdelivr.com/v1/package/gh/Lextenso/webkit-speech-algolia-connector-instantsearch.js/badge)](https://www.jsdelivr.com/package/gh/Lextenso/webkit-speech-algolia-connector-instantsearch.js)
 # Webkit Speech connector for Algolia InstantSearch.js
 Webkit Speech connector for Algolia InstantSearch.js allows you to easily add Speech to Text (STT) as a widget to your Algolia search .
 
 This repo is initially developed by [Lextenso](https://www.lextenso.fr), open to the community :hearts: and isn't affiliated or supported by Google or Algolia.
 
 ## Built with Web Speech API
-This is a middleware between _Algolia InstantSearch.js_ and _Web Speech API_.
+This is a middleware between _Algolia InstantSearch.js_ and Google Chrome's _Web Speech API_.
 This Algolia connector is bundled with the NPM package `instantsearch.js/es/connectors/connectSearchBox`.
 
 The connector handle :
@@ -24,8 +26,10 @@ You also need [Algolia](https://www.algolia.com/users/sign_up) credentials.
 ## Installation
 
 ### Standalone
-Pre-compiled bundle will be available soon on [jsdelivr.com CDN](https://www.jsdelivr.com/) for standalone versions.
-You can import the connector from the `/dist` directory.
+Pre-compiled bundle is available on [jsdelivr.com CDN](https://www.jsdelivr.com/package/gh/Lextenso/webkit-speech-algolia-connector-instantsearch.js) :
+ ```html
+<script src="https://cdn.jsdelivr.net/gh/Lextenso/webkit-speech-algolia-connector-instantsearch.js@0.3/dist/webkitSpeechAlgoliaConnector.js"></script>
+```
 
 Or build the connector with Webpack :
 ```console
@@ -50,7 +54,7 @@ const search = instantsearch(config);
 // [...]
 
 search.addWidget(
-    webkitSpeechAlgoliaConnector.default({
+    webkitSpeechAlgoliaConnector({
         container: {
             searchInput: [string],
             voiceButton: [string]

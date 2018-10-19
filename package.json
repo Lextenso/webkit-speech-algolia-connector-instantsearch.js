@@ -1,6 +1,6 @@
 {
   "name": "webkit-speech-algolia-connector-instantsearch.js",
-  "version": "0.1.0",
+  "version": "0.3.2",
   "description": "Webkit Speech connector for Algolia Instantsearch.js",
   "main": "dist/webkitSpeechAlgoliaConnector.js",
   "repository": "github:Lextenso/webkit-speech-algolia-connector-instantsearch.js",
@@ -23,6 +23,7 @@
     "jshint": "^2.9.6",
     "jshint-loader": "^0.8.4",
     "webpack": "^4.15.1",
-    "webpack-cli": "^3.0.8"
+    "webpack-cli": "^3.0.8",
+    "webpack-version-file": "^0.1.3"
   }
 }
