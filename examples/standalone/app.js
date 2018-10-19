@@ -119,7 +119,7 @@ function app(opts) {
   );
 
   search.addWidget(
-      webkitSpeechAlgoliaConnector.default({
+      webkitSpeechAlgoliaConnector({
           container: {
               searchInput: '#search-input input',
               voiceButton: 'button#mic-stt'

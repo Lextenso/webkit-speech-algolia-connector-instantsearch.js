@@ -1,6 +1,4 @@
-import toFactory from 'to-factory';
-import connectSearchBox from "instantsearch.js/es/connectors/search-box/connectSearchBox";
-
+let toFactory = require('to-factory');
 /**
 * @module lextenso/webkit-speech-algolia-connector-instantsearch.js
 */
@@ -10,18 +8,14 @@ class webkitSpeechAlgoliaConnectorClass {
         if (!isFirstRendering) return;
 
         this.renderingOptions = connectorRenderingOptions;
-        this.initConfig();
+        this.config = this.renderingOptions.widgetParams;
 
-        if (!('webkitSpeechRecognition' in window)) {
-            if(typeof this.config.autoHideContainer === 'boolean' && this.config.autoHideContainer){
-                document.querySelector(this.config.container.voiceButton).style.display = 'none';
-            } else if (typeof this.config.autoHideContainer === 'string'){
-                document.querySelector(this.config.autoHideContainer).style.display = 'none';
-            } else {
-                this.switchBtnClassByState('error');
-            }
+        if(!this.isAvailable()){
             return;
         }
+
+        this.initialize();
+
         let triggerButton = document.querySelector(this.config.container.voiceButton);
         if(triggerButton !== null){
             triggerButton.addEventListener('click', this.doStart.bind(this));
@@ -29,15 +23,20 @@ class webkitSpeechAlgoliaConnectorClass {
         return this;
     }
 
-    initConfig() {
+    initialize() {
         if (!this.renderingOptions || !this.renderingOptions.widgetParams.template || !this.renderingOptions.widgetParams.container) {
             throw new Error('webkitSpeechAlgoliaConnector.js: Missing required connector config.');
         }
 
-        this.config = this.renderingOptions.widgetParams;
+        if(!this.config.container.searchInput || !this.config.container.voiceButton){
+            throw new Error('webkitSpeechAlgoliaConnector.js: Missing required container config.');
+        }
+
+        this.isListening = false;
+
         const defaultRecognitionConfig = {
-            onresult: this.onData.bind(this),
-            onerror: this.onError.bind(this),
+            onresult: this.onResult.bind(this),
+            onerror: this.setError.bind(this),
             interimResults: true,
             continuous: false
         }
@@ -45,17 +44,27 @@ class webkitSpeechAlgoliaConnectorClass {
             ...this.config.recognitionConfig,
             ...defaultRecognitionConfig
         };
-
         delete this.config.recognitionConfig;
 
-        if(!this.config.container.searchInput || !this.config.container.voiceButton){
-            throw new Error('webkitSpeechAlgoliaConnector.js: Missing required container config.');
-        }
-
-        this.outputElement = this.config.container.searchInput;
-        this.isListening = false;
-
         return this;
+    }
+
+    isAvailable() {
+        const available = ('webkitSpeechRecognition' in window);
+        if (!available) {
+            this.autoHideContainer();
+        }
+        return available;
+    }
+
+    autoHideContainer() {
+        if(typeof this.config.autoHideContainer === 'boolean' && this.config.autoHideContainer){
+            document.querySelector(this.config.container.voiceButton).style.display = 'none';
+        } else if (typeof this.config.autoHideContainer === 'string'){
+            document.querySelector(this.config.autoHideContainer).style.display = 'none';
+        } else {
+            this.switchBtnClassByState('error');
+        }
     }
 
     switchBtnClassByState(state='active') {
@@ -101,31 +110,32 @@ class webkitSpeechAlgoliaConnectorClass {
                     console.warn('webkitSpeechAlgoliaConnector.js: '+prop+' doesn\'t exist in SpeechRecognition');
                 }
             });
-            this.onStart();
+
+            this.recognitionStart();
         } else if (typeof this.isListening === 'boolean' && this.isListening) {
-            this.onStop();
+            this.recognitionStop();
         } else {
             throw new Error('webkitSpeechAlgoliaConnector.js: Something went wrong.');
         }
     }
 
-    onStart(){
+    recognitionStart(){
         this.recognition.start();
         this.isListening = true;
         document.querySelector(this.config.container.searchInput).value = '';
         this.switchBtnClassByState('active');
     }
 
-    onData(data) {
-        var previousQuery = document.querySelector(this.config.container.searchInput).value || '';
-        var query = '';
+    onResult(data) {
+        let previousQuery = document.querySelector(this.config.container.searchInput).value || '';
+        let query = '';
 
-        for(var i = data.resultIndex; i < data.results.length; ++i) {
+        for(let i = data.resultIndex; i < data.results.length; ++i) {
             console.log(data.results[i]);
             if(typeof data.results[i] !== 'undefined' && typeof data.results[i].isFinal === 'boolean' && data.results[i].isFinal){
                 query = data.results[i][0].transcript;
                 if(typeof this.recognition.continuous === 'boolean' && !this.recognition.continuous){
-                    this.onStop();
+                    this.recognitionStop();
                 }
             } else {
                 query += data.results[i][0].transcript;
@@ -138,7 +148,7 @@ class webkitSpeechAlgoliaConnectorClass {
         }
     }
 
-    onStop(){
+    recognitionStop(){
         if(this.isListening){
             this.isListening = false;
             this.recognition.stop();
@@ -146,7 +156,7 @@ class webkitSpeechAlgoliaConnectorClass {
         }
     }
 
-    onError(err){
+    setError(err){
         this.recognition.stop();
         this.isListening = false;
         this.switchBtnClassByState('error');
@@ -154,8 +164,6 @@ class webkitSpeechAlgoliaConnectorClass {
         throw new Error('webkitSpeechAlgoliaConnector.js: Something went wrong.');
     }
 
-}
+};
 
-var webkitSpeechAlgoliaConnector = connectSearchBox(toFactory(webkitSpeechAlgoliaConnectorClass));
-
-export default webkitSpeechAlgoliaConnector;
+export default toFactory(webkitSpeechAlgoliaConnectorClass);
