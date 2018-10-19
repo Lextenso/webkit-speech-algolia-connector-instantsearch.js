@@ -2,7 +2,7 @@ const path = require('path');
 const VersionFile = require('webpack-version-file');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: path.resolve(__dirname, 'src/index.js'),
     output: {
         library: 'webkitSpeechAlgoliaConnector',
