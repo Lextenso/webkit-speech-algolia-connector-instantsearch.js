@@ -14,7 +14,7 @@ function app(opts) {
     appId: opts.appId,
     apiKey: opts.apiKey,
     indexName: opts.indexName,
-    urlSync: true,
+    routing: true,
     searchFunction: opts.searchFunction,
   });
 
