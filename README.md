@@ -1,6 +1,6 @@
 ![](https://img.shields.io/github/release/Lextenso/webkit-speech-algolia-connector-instantsearch.js/all.svg)
 ![](https://img.shields.io/badge/status-beta-red.svg)
-[![](https://data.jsdelivr.com/v1/package/gh/Lextenso/webkit-speech-algolia-connector-instantsearch.js/badge)](https://www.jsdelivr.com/package/gh/Lextenso/webkit-speech-algolia-connector-instantsearch.js)
+
 # Webkit Speech connector for Algolia InstantSearch.js
 Webkit Speech connector for Algolia InstantSearch.js allows you to easily add Speech to Text (STT) as a widget to your Algolia search .
 
