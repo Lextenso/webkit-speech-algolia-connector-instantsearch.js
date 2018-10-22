@@ -131,7 +131,6 @@ class webkitSpeechAlgoliaConnectorClass {
         let query = '';
 
         for(let i = data.resultIndex; i < data.results.length; ++i) {
-            console.log(data.results[i]);
             if(typeof data.results[i] !== 'undefined' && typeof data.results[i].isFinal === 'boolean' && data.results[i].isFinal){
                 query = data.results[i][0].transcript;
                 if(typeof this.recognition.continuous === 'boolean' && !this.recognition.continuous){

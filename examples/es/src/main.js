@@ -9,7 +9,7 @@ import {
     refinementList,
     rangeSlider
 } from "instantsearch.js/es/widgets";
-import webkitSpeechAlgoliaConnector from '../../../src/webkitSpeechAlgoliaConnector';
+import webkitSpeechAlgoliaConnector from '../../../src/index';
 
 
 app({
