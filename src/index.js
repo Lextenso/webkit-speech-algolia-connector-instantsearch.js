@@ -4,6 +4,8 @@ import version from './version';
 
 let webkitSpeechConnector = connectSearchBox(webkitSpeechConnectorFactory);
 webkitSpeechConnector.version = version;
-webkitSpeechConnector.isAvailable = ('webkitSpeechRecognition' in window);
+webkitSpeechConnector.isAvailable = () => {
+    return ('webkitSpeechRecognition' in window);
+};
 
 module.exports = webkitSpeechConnector;
