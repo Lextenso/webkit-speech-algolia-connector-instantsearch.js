@@ -1,7 +1,4 @@
-let toFactory = require('to-factory');
-/**
-* @module lextenso/webkit-speech-algolia-connector-instantsearch.js
-*/
+import toFactory from 'to-factory';
 
 class webkitSpeechAlgoliaConnectorClass {
     constructor(connectorRenderingOptions, isFirstRendering) {
@@ -18,7 +15,7 @@ class webkitSpeechAlgoliaConnectorClass {
 
         let triggerButton = document.querySelector(this.config.container.voiceButton);
         if(triggerButton !== null){
-            triggerButton.addEventListener('click', this.doStart.bind(this));
+            triggerButton.addEventListener('click', this.recognitionListener.bind(this));
         }
         return this;
     }
@@ -57,49 +54,7 @@ class webkitSpeechAlgoliaConnectorClass {
         return available;
     }
 
-    autoHideContainer() {
-        if(typeof this.config.autoHideContainer === 'boolean' && this.config.autoHideContainer){
-            document.querySelector(this.config.container.voiceButton).style.display = 'none';
-        } else if (typeof this.config.autoHideContainer === 'string'){
-            document.querySelector(this.config.autoHideContainer).style.display = 'none';
-        } else {
-            this.switchBtnClassByState('error');
-        }
-    }
-
-    switchBtnClassByState(state='active') {
-        if(typeof this.config.template.onStateChange === 'function'){
-            return this.config.template.onStateChange(state);
-        }
-        const containerClassList = document.querySelector(this.config.container.voiceButton).classList;
-        if(typeof this.config.template.onErrorClass !== 'undefined' && containerClassList.contains(this.config.template.onErrorClass)){
-            containerClassList.remove(this.config.template.onErrorClass)
-        }
-        if(state === 'inactive' || (state === 'error' && typeof this.config.template.onErrorClass === 'undefined')) {
-            if(containerClassList.contains(this.config.template.onActiveClass)){
-                containerClassList.replace(this.config.template.onActiveClass, this.config.template.onInactiveClass);
-            } else {
-                containerClassList.add(this.config.template.onInactiveClass);
-            }
-        } else if (state === 'active') {
-            if(containerClassList.contains(this.config.template.onInactiveClass)){
-                containerClassList.replace(this.config.template.onInactiveClass, this.config.template.onActiveClass);
-            } else {
-                containerClassList.add(this.config.template.onActiveClass);
-            }
-        } else if(state === 'error' && typeof this.config.template.onErrorClass === 'string'){
-            if(containerClassList.contains(this.config.template.onActiveClass)){
-                containerClassList.remove(this.config.template.onActiveClass)
-            }
-            if(containerClassList.contains(this.config.template.onInactiveClass)){
-                containerClassList.remove(this.config.template.onInactiveClass)
-            }
-            containerClassList.add(this.config.template.onErrorClass);
-        }
-        return true;
-    }
-
-    doStart() {
+    recognitionListener() {
         if(typeof this.isListening === 'boolean' && !this.isListening){
             this.recognition = new webkitSpeechRecognition();
 
@@ -161,6 +116,48 @@ class webkitSpeechAlgoliaConnectorClass {
         this.switchBtnClassByState('error');
         console.error(err);
         throw new Error('webkitSpeechAlgoliaConnector.js: Something went wrong.');
+    }
+
+    autoHideContainer() {
+        if(typeof this.config.autoHideContainer === 'boolean' && this.config.autoHideContainer){
+            document.querySelector(this.config.container.voiceButton).style.display = 'none';
+        } else if (typeof this.config.autoHideContainer === 'string'){
+            document.querySelector(this.config.autoHideContainer).style.display = 'none';
+        } else {
+            this.switchBtnClassByState('error');
+        }
+    }
+
+    switchBtnClassByState(state='active') {
+        if(typeof this.config.template.onStateChange === 'function'){
+            return this.config.template.onStateChange(state);
+        }
+        const containerClassList = document.querySelector(this.config.container.voiceButton).classList;
+        if(typeof this.config.template.onErrorClass !== 'undefined' && containerClassList.contains(this.config.template.onErrorClass)){
+            containerClassList.remove(this.config.template.onErrorClass)
+        }
+        if(state === 'inactive' || (state === 'error' && typeof this.config.template.onErrorClass === 'undefined')) {
+            if(containerClassList.contains(this.config.template.onActiveClass)){
+                containerClassList.replace(this.config.template.onActiveClass, this.config.template.onInactiveClass);
+            } else {
+                containerClassList.add(this.config.template.onInactiveClass);
+            }
+        } else if (state === 'active') {
+            if(containerClassList.contains(this.config.template.onInactiveClass)){
+                containerClassList.replace(this.config.template.onInactiveClass, this.config.template.onActiveClass);
+            } else {
+                containerClassList.add(this.config.template.onActiveClass);
+            }
+        } else if(state === 'error' && typeof this.config.template.onErrorClass === 'string'){
+            if(containerClassList.contains(this.config.template.onActiveClass)){
+                containerClassList.remove(this.config.template.onActiveClass)
+            }
+            if(containerClassList.contains(this.config.template.onInactiveClass)){
+                containerClassList.remove(this.config.template.onInactiveClass)
+            }
+            containerClassList.add(this.config.template.onErrorClass);
+        }
+        return true;
     }
 
 };
