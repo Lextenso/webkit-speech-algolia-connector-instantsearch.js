@@ -4,7 +4,9 @@
 # Webkit Speech connector for Algolia InstantSearch.js
 Webkit Speech connector for Algolia InstantSearch.js allows you to easily add Speech to Text (STT) as a widget to your Algolia search .
 
-This repo is initially developed by [Lextenso](https://www.lextenso.fr), open to the community :hearts: and isn't affiliated or supported by Google or Algolia.
+This repo is initially developed by [Lextenso](https://www.lextenso.com), open to the community :hearts: and isn't affiliated or supported by Google or Algolia.
+
+As of July 1, 2019, this project is no longer being maintained. Feel free to fork it! 
 
 ## Built with Web Speech API
 This is a middleware between _Algolia InstantSearch.js_ and Google Chrome's _Web Speech API_.
